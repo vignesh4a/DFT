@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Vignesh</title>
+</head>
+<body style="text-align: center;">
+  
+   <h1>
+       DFT Calculator
+   </h1>
+
+    <input id="tx" type="text"><br><br>
+    <button type="button" class="btn" onclick="setValues()">Solve</button>
+    <P id="o"></P>
+
+     
+</body>
+
+<style>
+    #tx{
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    width: 75%;
+    height: 40px;
+    border-radius: 10px;
+    border-color: black;
+}
+.btn{
+    font-family: 'Roboto', sans-serif;
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 25px;
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+#o{
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif; 
+}
+body{
+    color: white;
+    background-color:teal;
+    font-size: 20px;
+    font-family:'Roboto', sans-serif;
+}
+</style>
+
+<script>
+    
+function setValues(){
+    var x = document.getElementById("tx").value;
+    console.log(x);
+    if(x)
+    {
+        var res = x.split(",").map(a=>+a);
+        console.log("res ",res);
+        document.getElementById("o").textContent = calcDFT(res);
+    }
+    else
+    {
+        document.getElementById("o").textContent = "Enter minimum value";
+    }
+}
+
+
+
+function calcDFT(xn)
+{
+   if(xn.some(val=>isNaN(val)) ) return "Invalid";
+
+    var k = 0;
+    var n = 0;
+    const N = xn.length;
+    var X = [];
+    var tempcos = 0;
+    var tempsin = 0;
+
+    for(k = 0; k < N;k++)
+    {
+        tempsin = 0;
+        tempcos = 0;
+
+        for(n = 0;n<N;n++)
+        {
+          tempsin += xn[n]*(Math.sin((-2*Math.PI*k*n)/(N)));
+          tempcos += xn[n]*(Math.cos((-2*Math.PI*k*n)/(N)));
+        }
+
+        X.push(String((Math.round(tempcos*1000)/1000))+((tempsin<0)?"-":"+")+String(Math.abs((Math.round(tempsin*1000)/1000)))+"i"+"\t");
+    }
+    return X;
+}
+</script>
+</html>
